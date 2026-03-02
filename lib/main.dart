@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'model/word_model.dart';
 
 import 'home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox('cardsBox');
+  Hive.registerAdapter(WordModelAdapter());
+  await Hive.openBox<WordModel>('cardsBox');
   runApp(const MyApp());
 }
 

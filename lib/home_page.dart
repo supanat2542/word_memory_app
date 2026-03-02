@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:word_memory_app/model/word_model.dart';
 import 'package:word_memory_app/widget/add_board.dart';
 import 'package:word_memory_app/widget/card_board.dart';
 
@@ -11,40 +12,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, String>> cards = [];
-  final box = Hive.box('cardsBox');
+  List<WordModel> cards = [];
+  late Box<WordModel> box;
 
   void initState() {
     super.initState();
+    box = Hive.box<WordModel>('cardsBox');
     _loadCards();
   }
 
   void _loadCards() {
-    final stored = box.get('cards', defaultValue: []);
-
-    cards = List<Map<String, String>>.from(
-      stored.map((e) => Map<String, String>.from(e)),
-    );
+    cards = box.values.toList();
   }
 
-  void addCard(String front, String back) {
-    final newCard = {"front": front, "back": back};
-    final stored = box.get('cards', defaultValue: []);
-    List updated = List.from(stored);
+  void addCard(String word, String partOfSpeech, String meaning) {
+    final newWord = WordModel(
+      word: word,
+      partOfSpeech: partOfSpeech,
+      meaning: meaning,
+    );
 
-    updated.add(newCard);
-    box.put('cards', updated);
+    box.add(newWord);
 
     setState(() {
-      cards = List<Map<String, String>>.from(
-        updated.map((e) => Map<String, String>.from(e)),
-      );
+      cards = box.values.toList();
     });
   }
 
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: 0,
       length: 2,
       child: Scaffold(
         appBar: AppBar(

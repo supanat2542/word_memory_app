@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AddBoardMyWidget extends StatelessWidget {
-  final Function(String, String) onAdd;
+  final Function(String, String, String) onAdd;
 
   const AddBoardMyWidget({super.key, required this.onAdd});
 
   void _showAddDialog(BuildContext context) {
-    final frontController = TextEditingController();
-    final backController = TextEditingController();
+    final wordController = TextEditingController();
+    final partOfSpeechController = TextEditingController();
+    final meaningController = TextEditingController();
 
     showDialog(
       context: context,
@@ -17,12 +18,16 @@ class AddBoardMyWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-              controller: frontController,
-              decoration: const InputDecoration(labelText: "Front"),
+              controller: wordController,
+              decoration: const InputDecoration(labelText: "Word"),
             ),
             TextField(
-              controller: backController,
-              decoration: const InputDecoration(labelText: "Back"),
+              controller: partOfSpeechController,
+              decoration: const InputDecoration(labelText: "Part of Speech"),
+            ),
+            TextField(
+              controller: meaningController,
+              decoration: const InputDecoration(labelText: "Meaning"),
             ),
           ],
         ),
@@ -33,9 +38,14 @@ class AddBoardMyWidget extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              if (frontController.text.isNotEmpty &&
-                  backController.text.isNotEmpty) {
-                onAdd(frontController.text, backController.text);
+              if (wordController.text.isNotEmpty &&
+                  partOfSpeechController.text.isNotEmpty &&
+                  meaningController.text.isNotEmpty) {
+                onAdd(
+                  wordController.text,
+                  partOfSpeechController.text,
+                  meaningController.text,
+                );
                 Navigator.pop(context);
               }
             },
