@@ -3,10 +3,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'home_page.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox('wordsBox');
+  await Hive.openBox('cardsBox');
   runApp(const MyApp());
 }
 
