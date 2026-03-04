@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
@@ -13,9 +15,19 @@ class CardBoardMyWidget extends StatefulWidget {
 }
 
 class _CardBoardMyWidgetState extends State<CardBoardMyWidget> {
+  final CardSwiperController controller = CardSwiperController();
   final FlutterTts tts = FlutterTts();
 
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      shuffleCards();
+    });
+  }
 
   Future speakWord(String word) async {
     await tts.setLanguage("en-US");
@@ -24,12 +36,22 @@ class _CardBoardMyWidgetState extends State<CardBoardMyWidget> {
     await tts.speak(word);
   }
 
+  void shuffleCards() {
+    setState(() {
+      widget.cards.shuffle(Random());
+      currentIndex = 0;
+    });
+
+    controller.moveTo(0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
           child: CardSwiper(
+            controller: controller,
             cardsCount: widget.cards.length,
             onSwipe: (previousIndex, newIndex, direction) {
               setState(() {
@@ -79,7 +101,7 @@ class _CardBoardMyWidgetState extends State<CardBoardMyWidget> {
               ElevatedButton.icon(
                 icon: const Icon(Icons.shuffle_sharp),
                 label: const Text("สุ่มการ์ด"),
-                onPressed: () => {},
+                onPressed: () => {shuffleCards()},
               ),
               ElevatedButton.icon(
                 icon: const Icon(Icons.volume_up_sharp),
