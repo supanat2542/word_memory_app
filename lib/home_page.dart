@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
             if (cards.length < 2)
               const Center(child: Text("ต้องการการ์ดอย่างน้อย 2 ใบ"))
             else
-              CardBoardMyWidget(cards: cards),
+              CardBoardMyWidget(box: box),
             AddBoardMyWidget(onAdd: addCard, box: box,),
           ],
         ),
