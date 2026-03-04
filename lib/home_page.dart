@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   List<WordModel> cards = [];
   late Box<WordModel> box;
 
+  @override
   void initState() {
     super.initState();
     box = Hive.box<WordModel>('cardsBox');
@@ -39,13 +40,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('TabBar Sample'),
+          title: const Text('Word Memory'),
           bottom: const TabBar(
             tabs: <Widget>[
               Tab(icon: Icon(Icons.description_sharp)),
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> {
               const Center(child: Text("ต้องการการ์ดอย่างน้อย 2 ใบ"))
             else
               CardBoardMyWidget(cards: cards),
-            AddBoardMyWidget(onAdd: addCard),
+            AddBoardMyWidget(onAdd: addCard, box: box,),
           ],
         ),
       ),
