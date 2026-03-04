@@ -73,7 +73,7 @@ class _CardBoardMyWidgetState extends State<CardBoardMyWidget> {
                           style: const TextStyle(fontSize: 30),
                         ),
                         Text(
-                          "${widget.cards[index].partOfSpeech}.",
+                          widget.cards[index].partOfSpeech,
                           style: const TextStyle(fontSize: 15),
                         ),
                       ],
